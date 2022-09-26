@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+.game {
+    border: 1px solid black;
+    height: 322px;
+    width: 322px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content:space-between;
+    padding: 0px;
+    /* gap: 0px; */
+}
+
+.cell {
+    background-color: red;
+}
+
+.activated {
+    background-color: black;
+}
