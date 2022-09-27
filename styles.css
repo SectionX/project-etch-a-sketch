@@ -4,6 +4,56 @@
     padding: 0px;
     
 }
+/* features */
+
+
+.game {
+    user-select: none;
+}
+
+
+
+/* dimensions */
+
+
+.game {
+    border: 1px solid black;
+    height: 322px;
+    width: 322px;
+}
+
+
+button {
+    height: 70px;
+    width: 70px;
+}
+
+
+
+/* layout */
+
+#app {
+    display: flex;
+    justify-content: center;
+}
+
+.menu {
+    display:flex;
+    flex-direction: column;
+}
+
+.game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content:space-between;
+}
+
+
+
+/* styles */
+
 
 body {
     display: flex;
@@ -13,29 +63,46 @@ body {
     background-color: whitesmoke;
 }
 
-h1 {
-    text-align: center;
-}
 
-.game {
-    border: 1px solid black;
-    height: 322px;
-    width: 322px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    align-content:space-between;
-    padding: 0px;
+.game {   
     background-color: white;
-    user-select: none;
-    /* gap: 0px; */
 }
 
-/* .cell {
-    background-color: red;
-} */
+
+button {
+    border-radius: 100%;
+}
 
 .activated {
     background-color: black;
 }
+
+
+/* ---------------------------------------- */
+/* .app {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+
+
+
+.cell {
+    background-color: red;
+}
+
+
+
+
+.menu {
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+} */
+

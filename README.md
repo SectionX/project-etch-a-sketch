@@ -38,6 +38,8 @@ Plans for the future:
    One approach would be to export the color list to a plaintext file and somehow launch
    a python script stored in the server? 
 
-2) Create the menu and add a rainbow effect. 
+2) Add rainbow functionality
+3) Fix layout
+4) Increase button functionality and fix Eraser bug
 
 
