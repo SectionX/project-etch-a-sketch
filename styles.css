@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    
 }
 
 body {
@@ -9,6 +10,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: whitesmoke;
 }
 
 h1 {
@@ -25,12 +27,14 @@ h1 {
     flex-wrap: wrap;
     align-content:space-between;
     padding: 0px;
+    background-color: white;
+    user-select: none;
     /* gap: 0px; */
 }
 
-.cell {
+/* .cell {
     background-color: red;
-}
+} */
 
 .activated {
     background-color: black;
