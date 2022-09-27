@@ -3,22 +3,15 @@ function activate(e) {
     e.target.classList.add("activated");
 }
 
-// function stopdraw(e, nodelist = cells) {
-//     // if (e.target.classList[0] != 'cell') return;
-//     console.log("stopdraw");
-//     nodelist.forEach(node => node.removeEventListener("mouseover", activate));
-// }
-
 const board = document.querySelector(".game");
 boardside = +(getComputedStyle(board)['width'].toString()).substr(0,3)-2;
 
 let cell;
 let cells = []
-let cellnumber = 9;
+let cellnumber = 64;
 let cellside = boardside / cellnumber;
 console.log(cellside);
 let len = (boardside*boardside/(cellside*cellside));
-let interval;
 let mousedown;
 
 console.log(len);
