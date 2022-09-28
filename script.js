@@ -1,37 +1,63 @@
-function determineLen (boardside, cellside) {
-    return Math.pow(boardside,2)/Math.pow(cellside,2);
+function initialize () {
+    board.innerHTML = "";
+    let cellnumber = cellnumbers[cellnumberindex];
+    cellside = boardside / cellnumber;
+
+    for (let i = 0; i < Math.pow(cellnumber,2); i++) {
+        cell = document.createElement('div');
+        cell.style = `width:${cellside}px; height:${cellside}px; background-color:rgb(255, 255, 255);`;
+        cell.classList.add('cell');
+        cells.push(cell);
+        cell.addEventListener('mouseover', activate);
+        board.appendChild(cell);
+    }
 
 }
+
 
 function activate(e) {
     if (!mousedown) return;
-    if (!rainbowtoggle || erasertoggle) {
-        e.target.style['background-color'] = colorlist[colorindex];
-    } else {
-        let result1;
-        let result2;
-        let result3;
-        if (!e.target.style['background-color'] || e.target.style['background-color'] == 'white') {
-            result1 = Math.floor(Math.random()*255);
-            result2 = Math.floor(Math.random()*255);
-            result3 = Math.floor(Math.random()*255);
-            e.target.style['background-color'] = `rgb(${result1}, ${result2}, ${result3}`;
-        } else {
-            let clr = e.target.style['background-color'].slice(4,-1).split(", ");
-            clr = clr.map(n => (+n-25 < 0) ? 0 : +n-25);
-            e.target.style['background-color'] = `rgb(${clr[0]}, ${clr[1]}, ${clr[2]})`;
-        }
+
+    if (erasertoggle) {
+        e.target.style['background-color'] = 'rgb(255, 255, 255)';
+        e.target.removeAttribute('data-initalcolor');
+        return;
     }
+
+    if (rainbowtoggle) {
+        let rgb = [0,0,0];
+        let initclr;
+        if (e.target.style['background-color'] == 'rgb(255, 255, 255)') {
+            rgb = rgb.map(clr => clr + Math.floor(Math.random()*255));
+            e.target.style['background-color'] = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+            e.target.setAttribute("data-initialcolor", `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`);
+        } else  {
+            rgb = e.target.style['background-color'].slice(4, -1).split(", ");
+            initclr = e.target.getAttribute("data-initialcolor").slice(4,-1).split(", ");
+            for (let i in rgb) {
+                rgb[i] -= initclr[i] ? initclr[i]*0.1 : 25;
+            }
+            e.target.style['background-color'] = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
+        }
+        return;
+    }
+
+    e.target.style['background-color'] = colorlist[colorindex];
+    e.target.setAttribute("data-initialcolor", colorlist[colorindex]);
+    return;
+
 }
+
 
 
 // Declarations
 
 const board = document.querySelector(".game");
 const reset = document.querySelector(".reset");
-const rainbow = document.querySelector(".rainbowmode");
+const rainbowmode = document.querySelector(".rainbowmode");
 const colorpicker = document.querySelector(".colorpicker");
 const eraser = document.querySelector(".eraser");
+const resolution = document.querySelector(".resolutionpicker");
 
 // Toggles
 
@@ -42,53 +68,31 @@ let erasertoggle = false;
 
 let cell;
 let cells = []
-const cellnumbers = [8, 16, 32, 64, 80]              
+const cellnumbers = [8, 16, 32, 64, 80]    
+let cellnumberindex = 3;          
 
-const colorlist = ["black", "red", "green", "blue", "white"];
+
+const colorlist = ['rgb(0, 0, 0)', 'rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)', "white"];
 let colorindex = 0;
 
-boardside = +(getComputedStyle(board)['width']).slice(0,-2)-2;
 
 // Initializing the app at 64x64.
+
+boardside = 320;
 
 board.addEventListener('mousedown', (e) => {mousedown = true; activate(e);});
 board.addEventListener('mouseup', () => mousedown = false);
 
-let cellnumberindex = 3; // 3 corresponds to 64x64 board               
-let cellnumber = cellnumbers[cellnumberindex];   
-let cellside = boardside / cellnumber;
-let len = determineLen(boardside, cellside);
+initialize();
 
-console.log(len);
-for (let i = 0; i < len; i++) {
-    cell = document.createElement('div');
-    cell.style = `width:${cellside}px; height:${cellside}px;`;
-    cell.classList.add('cell');
-    cell.addEventListener('mouseover', activate);
-    cells.push(cell);
-    board.appendChild(cell);
-}
+// Button event listeners:
+
+reset.addEventListener("click", initialize);
 
 
-// Reset button
-
-
-reset.addEventListener("click", () => cells.forEach(cell => {
-    cell.classList.remove("activated");
-    cell.style["background-color"]="white";
-}));
-
-
-// Toggle Rainbow Mode
-
-
-rainbow.addEventListener("click", () => {
+rainbowmode.addEventListener("click", () => {
     rainbowtoggle = !(rainbowtoggle);
-    // console.log(rainbowtoggle);
 });
-
-
-// Color picker (v1)
 
 
 colorpicker.addEventListener("click", () => {
@@ -96,9 +100,6 @@ colorpicker.addEventListener("click", () => {
     eraser.textContent = "Eraser";
     erasertoggle = false
 });
-
-
-// Eraser (v1)
 
 
 eraser.addEventListener("click", () => {
@@ -111,25 +112,12 @@ eraser.addEventListener("click", () => {
     }
 });
 
-// Set dimensions (v1)
 
-const dimensions = document.querySelector(".resolutionpicker");
-dimensions.addEventListener("click", () => {
+resolution.addEventListener("click", () => {
     board.innerHTML = "";
     cellnumberindex = (cellnumberindex + 1) % 5;
-    cellnumber = cellnumbers[cellnumberindex];
-    cellside = boardside / cellnumber;
-    len = determineLen(boardside, cellside);
-    cells = []
-
-
-for (let i = 0; i < len; i++) {
-    cell = document.createElement('div');
-    cell.style = `width:${cellside}px; height:${cellside}px;`;
-    cell.classList.add('cell');
-    cell.addEventListener('mouseover', activate);
-    cells.push(cell);
-    board.appendChild(cell);
-}
+    initialize()
 
 });
+
+

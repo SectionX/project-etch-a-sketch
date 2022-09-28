@@ -1,61 +1,74 @@
 # project-etch-a-sketch
 The Odin Project assignment.
 
+
+Version History:
+
+- v1.0
+
+- Completed the required functionality for the assignment.
+- Major refactors. 
+- Resolution: Loops among 8x8, 16x16, 32x32, 64x64 and 80x80. The default is 64x64. Resets the board
+- Color: Loops among 4 colors, Black, Red, Green and Blue.
+- Eraser: Resets cells to White.
+- Rainbow Mode: 
+    If the cell is white, it paints it with a random rgb value.
+    If the cell is painted, it makes it darker. 
+- Reset: Changes all cells to white color.
+
+
+
+What's next:
+
+- Next release will expand the color picker and will add more visual information.
+
+
+Future plans:
+
+- Touchscreen Support
+- Undo button
+- Export button
+
+
+
 Things I've learned:
 
-1) One of the most annoying bugs is forgetting to add the letters 'px' when manipulating
-   styles through JS.
+- Getting color info is a bit odd, and I still haven't exactly figured it out.
+  If you manually set a named color, like "white", the node stores "white".
+  If you set a hex color like #ffffff, the node stores "rgb(255, 255, 255)"
+  I decided to just go with the rgb(x, x, x) syntax.
 
-   Good thing that most dynamic resizing takes place in css so I don't have to deal with
-   it too much. Getting style info in JS is a bit odd. I had to use the getComputedStyle
-   function which took a while to find. I really hope there is a node method to get them.
-   Object methods are just easier to remember.
+- I dislike having to reference the global scope in my functions but they\ way
+  event listeners work it's kind of hard not to. While this is a fairly small
+  application, I wouldn't want to scale this without encapsulating them in a
+  namespace somehow. I'm not very familiar with JS classes though, So I'll 
+  leave this for another time.
 
-2) Dynamic resizing was easy, but the browser doesn't seem to be able to handle too many
-   elements. The decimals fit tightly inside the container so I can't complain. I don't have
-   to limit the board cells to perfect square integers.
+- The activate function does a bit too much for my liking but I decided to 
+  refactor the code as much as I can without changing the function itself. 
+  The way it works is very hierarchical so it shouldn't be to hard to 
+  figure out what it does. For reference, this is how it works:
 
-3) I tried a really complex approach, trying to add and remove listeners depending on if
-   the mouse is pressed down. That was horrible. It's doable, but not only it's unoptimized
-   but the removeEventListener command is odd. I mean, I kind of get why they would implement
-   it that way, but I had to refactor my code and I ended up scraping the whole approach
-   anyway.
+  1) Checks if the user is currently holding down the mouse button.
+  2) Checks if the eraser is toggled on.
+  3) Checks if the rainbowmode is enabled.
+  4) Default behavior.
 
-4) Understanding how to build the conditional structures with event listeners is paramount.
-    
+- Rainbow mode was more trouble than I initialy thought but that was mostly
+  till I figure out how the nodes store color information. The logic was
+  fairly straightforward. Add a data attribute that holds the color set by
+  the randomizer, and then subtract 10% each pass. However I had to create
+  interactivity for the eraser function, and it's very easy to make spelling
+  mistakes when having to parse attributes. Spelling mistakes are messy
+  to troubleshoot.
 
-5) Make sure to set the user-select property to none in CSS otherwise it introduces a bug
-   where the mouse tries to drag some element and pauses the listeners.
+- One thing that bugs me is performance. Coding different approaches is
+  too much work, and I can't really know if it's better to include more
+  event listeners or more complex functions. It's also hard to find a
+  definitive answer online, which makes sense since each program has
+  it's own bottlenecks. 
 
-6) The listening rate isn't very good. I consider 64x64 the highest worthwhile res. From there on
-   the browser starts getting sluggish and the lines don't get filled very well. I guess I could
-   fix it by forcing nearbly divs to change color but that would require a lot of computing
-   when the browser can barely handle these dimensions anyway. I may try it later out of
-   curiosity but only if I find some way to optimize performance because I don't see how can
-   I scale it as is.
-
-
-Plans for the future:
-
-1) Export the image. If that was Python, I'd know how to do it. With JS I'm not very sure.
-   One approach would be to export the color list to a plaintext file and somehow launch
-   a python script stored in the server? 
-
-2) Add undo/redo functionality. I'll probably try to implement this as a stack but I want
-   to research other possible implementations.
-
-3) Add touchscreen functionality.
-
-For the next release:
-
-1) Need to fix the eraser toggle logic because it's a mess. I treat it like a color and I have
-   to make sure that it behaves properly when the user tries to toggle it off by clicking on
-   other buttons, like color or rainbow mode. The current implementation makes it difficult
-   to implement a proper color chooser.
-
-2) I also need to design the activate function better. I wanted to use a very simple API that
-   takes care of all behaviors, but I can't just write all the behavior inside a single function.
-
-3) Add a proper color chooser and make the dimensions button more intuitive.
-
-4) Find a better way to initialize the application. I don't like repeat code.
+- While designing the logic for toggle interactivity isn't too hard, without
+  a clear plan it becomes messy. It becomes especially messy if you decide
+  to change your approach in the middle of the implementation. Planning is
+  paramount to save time. 
