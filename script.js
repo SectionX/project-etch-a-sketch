@@ -5,7 +5,7 @@ function determineLen (boardside, cellside) {
 
 function activate(e) {
     if (!mousedown) return;
-    if (!rainbowtoggle) {
+    if (!rainbowtoggle || erasertoggle) {
         e.target.style['background-color'] = colorlist[colorindex];
     } else {
         let result1;
@@ -33,19 +33,28 @@ const rainbow = document.querySelector(".rainbowmode");
 const colorpicker = document.querySelector(".colorpicker");
 const eraser = document.querySelector(".eraser");
 
+// Toggles
+
+let mousedown = false;
+let rainbowtoggle = false;
+let erasertoggle = false;
+
+
 let cell;
 let cells = []
 const cellnumbers = [8, 16, 32, 64, 80]              
-let mousedown = false;
-let rainbowtoggle = false;
 
 const colorlist = ["black", "red", "green", "blue", "white"];
 let colorindex = 0;
 
 boardside = +(getComputedStyle(board)['width']).slice(0,-2)-2;
+
 // Initializing the app at 64x64.
 
-let cellnumberindex = 3;                         
+board.addEventListener('mousedown', (e) => {mousedown = true; activate(e);});
+board.addEventListener('mouseup', () => mousedown = false);
+
+let cellnumberindex = 3; // 3 corresponds to 64x64 board               
 let cellnumber = cellnumbers[cellnumberindex];   
 let cellside = boardside / cellnumber;
 let len = determineLen(boardside, cellside);
@@ -56,8 +65,6 @@ for (let i = 0; i < len; i++) {
     cell.style = `width:${cellside}px; height:${cellside}px;`;
     cell.classList.add('cell');
     cell.addEventListener('mouseover', activate);
-    cell.addEventListener('mousedown', (e) => {mousedown = true; activate(e);});
-    cell.addEventListener('mouseup', () => mousedown = false);
     cells.push(cell);
     board.appendChild(cell);
 }
@@ -87,6 +94,7 @@ rainbow.addEventListener("click", () => {
 colorpicker.addEventListener("click", () => {
     colorindex = (colorindex+1)%4;
     eraser.textContent = "Eraser";
+    erasertoggle = false
 });
 
 
@@ -96,6 +104,7 @@ colorpicker.addEventListener("click", () => {
 eraser.addEventListener("click", () => {
     colorindex = (colorindex < 4) ? 4 : 0;
     eraser.textContent = (colorindex < 4) ? "Eraser" : "Pen";
+    erasertoggle = !erasertoggle
     if (eraser.textContent == "Pen" && colorindex != 4) {
         eraser.textContent = "Eraser";
         colorindex = 0;
@@ -119,8 +128,6 @@ for (let i = 0; i < len; i++) {
     cell.style = `width:${cellside}px; height:${cellside}px;`;
     cell.classList.add('cell');
     cell.addEventListener('mouseover', activate);
-    cell.addEventListener('mousedown', (e) => {mousedown = true; activate(e);});
-    cell.addEventListener('mouseup', () => mousedown = false);
     cells.push(cell);
     board.appendChild(cell);
 }

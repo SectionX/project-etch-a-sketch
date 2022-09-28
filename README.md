@@ -34,14 +34,28 @@ Things I've learned:
    curiosity but only if I find some way to optimize performance because I don't see how can
    I scale it as is.
 
+
 Plans for the future:
 
 1) Export the image. If that was Python, I'd know how to do it. With JS I'm not very sure.
    One approach would be to export the color list to a plaintext file and somehow launch
    a python script stored in the server? 
 
-2) Add rainbow functionality
-3) Fix layout
-4) Increase button functionality and fix Eraser bug
-5) Undo button
+2) Add undo/redo functionality. I'll probably try to implement this as a stack but I want
+   to research other possible implementations.
 
+3) Add touchscreen functionality.
+
+For the next release:
+
+1) Need to fix the eraser toggle logic because it's a mess. I treat it like a color and I have
+   to make sure that it behaves properly when the user tries to toggle it off by clicking on
+   other buttons, like color or rainbow mode. The current implementation makes it difficult
+   to implement a proper color chooser.
+
+2) I also need to design the activate function better. I wanted to use a very simple API that
+   takes care of all behaviors, but I can't just write all the behavior inside a single function.
+
+3) Add a proper color chooser and make the dimensions button more intuitive.
+
+4) Find a better way to initialize the application. I don't like repeat code.
