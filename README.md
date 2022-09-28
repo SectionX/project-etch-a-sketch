@@ -3,7 +3,9 @@ The Odin Project assignment.
 
 Things I've learned:
 
-1) One of the most annoying bugs is forgetting to add the letters 'px' in CSS styles.
+1) One of the most annoying bugs is forgetting to add the letters 'px' when manipulating
+   styles through JS.
+
    Good thing that most dynamic resizing takes place in css so I don't have to deal with
    it too much. Getting style info in JS is a bit odd. I had to use the getComputedStyle
    function which took a while to find. I really hope there is a node method to get them.
@@ -25,7 +27,7 @@ Things I've learned:
 5) Make sure to set the user-select property to none in CSS otherwise it introduces a bug
    where the mouse tries to drag some element and pauses the listeners.
 
-6) The refresh rate isn't very good. I consider 64x64 the highest worthwhile res. From there on
+6) The listening rate isn't very good. I consider 64x64 the highest worthwhile res. From there on
    the browser starts getting sluggish and the lines don't get filled very well. I guess I could
    fix it by forcing nearbly divs to change color but that would require a lot of computing
    when the browser can barely handle these dimensions anyway. I may try it later out of
@@ -41,5 +43,5 @@ Plans for the future:
 2) Add rainbow functionality
 3) Fix layout
 4) Increase button functionality and fix Eraser bug
-
+5) Undo button
 

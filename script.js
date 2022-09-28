@@ -5,33 +5,50 @@ function determineLen (boardside, cellside) {
 
 function activate(e) {
     if (!mousedown) return;
-    e.target.style['background-color'] = colorlist[colorindex];
+    if (!rainbowtoggle) {
+        e.target.style['background-color'] = colorlist[colorindex];
+    } else {
+        let result1;
+        let result2;
+        let result3;
+        if (!e.target.style['background-color'] || e.target.style['background-color'] == 'white') {
+            result1 = Math.floor(Math.random()*255);
+            result2 = Math.floor(Math.random()*255);
+            result3 = Math.floor(Math.random()*255);
+            e.target.style['background-color'] = `rgb(${result1}, ${result2}, ${result3}`;
+        } else {
+            let clr = e.target.style['background-color'].slice(4,-1).split(", ");
+            clr = clr.map(n => (+n-25 < 0) ? 0 : +n-25);
+            e.target.style['background-color'] = `rgb(${clr[0]}, ${clr[1]}, ${clr[2]})`;
+        }
+    }
 }
 
-// function activatetouch(e) {
-//     e.target.classList.add("activated");
-// }
 
-
-// Determine cell size to create dynamically
+// Declarations
 
 const board = document.querySelector(".game");
-boardside = +(getComputedStyle(board)['width'].toString()).substr(0,3)-2;
+const reset = document.querySelector(".reset");
+const rainbow = document.querySelector(".rainbowmode");
+const colorpicker = document.querySelector(".colorpicker");
+const eraser = document.querySelector(".eraser");
 
 let cell;
 let cells = []
-const cellnumbers = [8, 16, 32, 64]              // Implementing this dynamically
-let cellnumberindex = 3;                         // will probably require some
-let cellnumber = cellnumbers[cellnumberindex];   // either refresh or deleting elements
-let cellside = boardside / cellnumber;
-let len = determineLen(boardside, cellside);
+const cellnumbers = [8, 16, 32, 64, 80]              
 let mousedown = false;
 let rainbowtoggle = false;
 
 const colorlist = ["black", "red", "green", "blue", "white"];
 let colorindex = 0;
 
-// Add drawing behavior
+boardside = +(getComputedStyle(board)['width']).slice(0,-2)-2;
+// Initializing the app at 64x64.
+
+let cellnumberindex = 3;                         
+let cellnumber = cellnumbers[cellnumberindex];   
+let cellside = boardside / cellnumber;
+let len = determineLen(boardside, cellside);
 
 console.log(len);
 for (let i = 0; i < len; i++) {
@@ -39,8 +56,7 @@ for (let i = 0; i < len; i++) {
     cell.style = `width:${cellside}px; height:${cellside}px;`;
     cell.classList.add('cell');
     cell.addEventListener('mouseover', activate);
-    // cell.addEventListener('touchmove', activatetouch);
-    cell.addEventListener('mousedown', () => mousedown = true);
+    cell.addEventListener('mousedown', (e) => {mousedown = true; activate(e);});
     cell.addEventListener('mouseup', () => mousedown = false);
     cells.push(cell);
     board.appendChild(cell);
@@ -49,7 +65,7 @@ for (let i = 0; i < len; i++) {
 
 // Reset button
 
-const reset = document.querySelector(".reset");
+
 reset.addEventListener("click", () => cells.forEach(cell => {
     cell.classList.remove("activated");
     cell.style["background-color"]="white";
@@ -58,7 +74,7 @@ reset.addEventListener("click", () => cells.forEach(cell => {
 
 // Toggle Rainbow Mode
 
-const rainbow = document.querySelector(".rainbowmode");
+
 rainbow.addEventListener("click", () => {
     rainbowtoggle = !(rainbowtoggle);
     // console.log(rainbowtoggle);
@@ -67,13 +83,16 @@ rainbow.addEventListener("click", () => {
 
 // Color picker (v1)
 
-const colorpicker = document.querySelector(".colorpicker");
-colorpicker.addEventListener("click", () => colorindex = (colorindex+1)%4)
+
+colorpicker.addEventListener("click", () => {
+    colorindex = (colorindex+1)%4;
+    eraser.textContent = "Eraser";
+});
 
 
 // Eraser (v1)
 
-const eraser = document.querySelector(".eraser");
+
 eraser.addEventListener("click", () => {
     colorindex = (colorindex < 4) ? 4 : 0;
     eraser.textContent = (colorindex < 4) ? "Eraser" : "Pen";
@@ -88,7 +107,7 @@ eraser.addEventListener("click", () => {
 const dimensions = document.querySelector(".resolutionpicker");
 dimensions.addEventListener("click", () => {
     board.innerHTML = "";
-    cellnumberindex = (cellnumberindex + 1) % 4;
+    cellnumberindex = (cellnumberindex + 1) % 5;
     cellnumber = cellnumbers[cellnumberindex];
     cellside = boardside / cellnumber;
     len = determineLen(boardside, cellside);
@@ -100,12 +119,10 @@ for (let i = 0; i < len; i++) {
     cell.style = `width:${cellside}px; height:${cellside}px;`;
     cell.classList.add('cell');
     cell.addEventListener('mouseover', activate);
-    cell.addEventListener('mousedown', () => mousedown = true);
+    cell.addEventListener('mousedown', (e) => {mousedown = true; activate(e);});
     cell.addEventListener('mouseup', () => mousedown = false);
     cells.push(cell);
     board.appendChild(cell);
 }
 
 });
-
-
