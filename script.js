@@ -42,8 +42,9 @@ function activate(e) {
         return;
     }
 
-    e.target.style['background-color'] = colorlist[colorindex];
-    e.target.setAttribute("data-initialcolor", colorlist[colorindex]);
+    color = document.querySelector("#colorpicker").value
+    e.target.style['background-color'] = color;
+    e.target.setAttribute("data-initialcolor", color);
     return;
 
 }
@@ -55,7 +56,6 @@ function activate(e) {
 const board = document.querySelector(".game");
 const reset = document.querySelector(".reset");
 const rainbowmode = document.querySelector(".rainbowmode");
-const colorpicker = document.querySelector(".colorpicker");
 const eraser = document.querySelector(".eraser");
 const resolution = document.querySelector(".resolutionpicker");
 
@@ -70,10 +70,6 @@ let cell;
 let cells = []
 const cellnumbers = [8, 16, 32, 64, 80]    
 let cellnumberindex = 3;          
-
-
-const colorlist = ['rgb(0, 0, 0)', 'rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)', "white"];
-let colorindex = 0;
 
 
 // Initializing the app at 64x64.
@@ -92,23 +88,21 @@ reset.addEventListener("click", initialize);
 
 rainbowmode.addEventListener("click", () => {
     rainbowtoggle = !(rainbowtoggle);
-});
-
-
-colorpicker.addEventListener("click", () => {
-    colorindex = (colorindex+1)%4;
-    eraser.textContent = "Eraser";
-    erasertoggle = false
+    if (rainbowmode.textContent == "Normal Mode") {
+        rainbowmode.textContent = "Rainbow Mode!";
+    } else {
+        rainbowmode.textContent = "Normal Mode";
+    }
 });
 
 
 eraser.addEventListener("click", () => {
-    colorindex = (colorindex < 4) ? 4 : 0;
-    eraser.textContent = (colorindex < 4) ? "Eraser" : "Pen";
-    erasertoggle = !erasertoggle
-    if (eraser.textContent == "Pen" && colorindex != 4) {
+    erasertoggle = !erasertoggle;
+    console.log(erasertoggle);
+    if (eraser.textContent == "Pen") {
         eraser.textContent = "Eraser";
-        colorindex = 0;
+    } else {
+        eraser.textContent = "Pen";
     }
 });
 
@@ -116,7 +110,7 @@ eraser.addEventListener("click", () => {
 resolution.addEventListener("click", () => {
     board.innerHTML = "";
     cellnumberindex = (cellnumberindex + 1) % 5;
-    initialize()
+    initialize();
 
 });
 

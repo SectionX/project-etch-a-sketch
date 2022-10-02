@@ -29,9 +29,16 @@
 
 
 button {
-    flex: 1;
+    /* flex: 1; */
     height: 70px;
     width: 70px;
+}
+
+#colorpicker {
+    flex: 0 1 auto;
+    height: 70px;
+    width: 70px;
+    padding: 20px 20px
 }
 
 
@@ -57,6 +64,7 @@ body {
     height: 322px;
     margin-right: 15px;
     justify-content: center;
+    gap: 4px;
 }
 
 .game {
@@ -92,6 +100,12 @@ button {
 
 .activated {
     background-color: black;
+}
+
+#colorpicker {
+    border-radius: 100%;
+    border: 1px solid black;
+    
 }
 
 
