@@ -4,14 +4,14 @@ The Odin Project assignment.
 
 Version History:
 
-- v1.1
+v1.1
 
 - Changed the color button to color input. Now the user can choose any color.
 - The chosen color is now visible.
 - Visual que that rainbow mode is enabled.
 
 
-- v1.0
+v1.0
 
 - Completed the required functionality for the assignment.
 - Major refactors. 
